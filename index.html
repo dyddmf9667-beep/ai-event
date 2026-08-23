@@ -63,7 +63,7 @@
   button { font-family: inherit; cursor: pointer; }
   :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 
-  .frame { width: 100%; margin: 0 auto; background: var(--surface); overflow: hidden; }
+  .frame { width: 100%; max-width: 600px; margin: 0 auto; background: var(--surface); overflow: hidden; }
   .section { padding: 34px 20px; background: var(--surface); }
   .section-title { font-size: 19px; text-align: center; }
 
@@ -72,7 +72,7 @@
   .photo-section > *:not(.section-bg) { position: relative; z-index: 1; }
   .section-bg { position: absolute; inset: 0; z-index: 0; }
   .section-bg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-  .section-bg .scrim { position: absolute; inset: 0; background: oklch(100% 0 0 / 0.45); }
+  .section-bg .scrim { position: absolute; inset: 0; background: oklch(100% 0 0 / 0.85); }
   .section-eyebrow { display: block; text-align: center; font-size: 11px; letter-spacing: 0.12em; color: var(--faint); margin-bottom: 6px; }
 
   /* --- 물결 구분선: 섹션 사이를 색이 채워진 파도 모양으로 이어줍니다 --- */
@@ -556,9 +556,9 @@
 
 <script>
 /* =========================================================================
-   ▼▼▼  이미지·영상·텍스트 교체 가이드 (직접 수정하실 때 이 블록만 보시면 됩니다)  ▼▼▼
+   ▼▼▼  아래 목록만 고쳐서 쓰시면 됩니다  ▼▼▼
 
-   ── 사진이 들어가는 곳 6곳 ──────────────────────────────────────────
+   이 페이지에서 "사진(이미지)"이 들어가는 곳은 아래 6곳입니다.
      1) HERO_IMAGE           : 맨 위 히어로 배경 사진        — 비워두면 하늘색 그러데이션만 표시
      2) VIDEO_SECTION_IMAGE  : 홍보영상 섹션 뒷배경 사진      — 비워두면 흰 배경 그대로 표시
      3) VIDEOS               : 홍보영상 캐러셀 (썸네일은 유튜브 ID로 자동 생성됨)
@@ -568,24 +568,13 @@
    그 외 영역(이벤트 정보, 참여방법, 신청 폼, 푸터 등)은
    사진 없이 색상·타이포그래피로만 디자인되어 있어 손댈 필요가 없습니다.
 
-   ── 사진 넣는 방법 (공통) ────────────────────────────────────────
-     ① 이 파일(index.html)과 "같은 폴더"에 이미지 파일을 넣습니다.
-     ② 아래 코드의 따옴표 " " 안에 그 파일 이름을 정확히 똑같이 적습니다.
-        예) 파일명이 hero.jpg 라면  →  var HERO_IMAGE = "hero.jpg";
-        (대소문자, 확장자까지 정확히 일치해야 합니다 — hero.jpg ≠ Hero.JPG)
-     ③ 파일이 없거나 이름이 다르면, 자동으로 원래 디자인(그러데이션/흰배경/색상카드)이
-        대신 보여서 페이지가 깨지지 않습니다. 안심하고 시도해보셔도 됩니다.
-
-   ── VIDEOS / PRIZES / GALLERY 공통 규칙 ─────────────────────────
-     - { ... } 블록을 콤마(,)로 이어붙이면 슬라이드(카드)가 자동으로 늘어납니다.
-     - 블록을 통째로 지우면 슬라이드 수도 자동으로 줄어듭니다.
-     - 맨 앞에 "//"가 붙은 줄은 참고용 예시 주석이라 실제로 동작하지 않습니다.
-       사용하려면 맨 앞 "// ," 를 지우고 콤마(,)만 남기면 됩니다.
+   - { ... } 블록을 콤마(,)로 이어붙이면 슬라이드가 자동으로 늘어납니다.
+   - 항목을 지우면 슬라이드 수도 자동으로 줄어듭니다.
    ========================================================================= */
 
-  var HERO_IMAGE = "hero.jpeg";        // 히어로(맨 위) 배경 사진 파일명
-  var VIDEO_SECTION_IMAGE = "video-bg.jpg";     // 홍보영상 섹션 뒷배경 사진 파일명 — 이 이름으로 저장한 파일을 넣어주세요
-  var GALLERY_SECTION_IMAGE = "gallery-bg.jpg"; // 참가작품 공유 섹션 뒷배경 사진 파일명 — 이 이름으로 저장한 파일을 넣어주세요
+  var HERO_IMAGE = "hero.jpeg";   // 히어로 배경 사진 경로 또는 URL (예: hero.jpg). 비워두면 그러데이션만 표시됩니다.
+  var VIDEO_SECTION_IMAGE = "";   // 홍보영상 섹션 뒷배경 사진 경로 또는 URL. 비워두면 흰 배경 그대로 표시됩니다.
+  var GALLERY_SECTION_IMAGE = ""; // 참가작품 공유 섹션 뒷배경 사진 경로 또는 URL. 비워두면 흰 배경 그대로 표시됩니다.
 
   var VIDEOS = [
     {
@@ -609,19 +598,19 @@
 
   var GALLERY = [
     {
-      image: "IMAGE3.jpg",        // 이미지 파일 경로 또는 URL (예: images/entry1.jpg). 비워두면 예시 색상 카드로 표시됩니다.
+      image: "IMAGE3.png",        // 이미지 파일 경로 또는 URL (예: images/entry1.jpg). 비워두면 예시 색상 카드로 표시됩니다.
       tag: "#AI 산업혁신",
       name: "충남 최고",
       prompt: "2026년 충남의 오늘날, 백제 계백 장군이 보령 머드 축제를 즐기는 모습을 만들어줘"
     },
     {
-      image: "images1.jpeg",
+      image: "images1.png",
       tag: "#사회안전망",
       name: "",
       prompt: ""
     },
     {
-      image: "images2.jpeg",
+      image: "images2.png",
       tag: "#지속가능성",
       name: "",
       prompt: ""
@@ -906,7 +895,7 @@
 
   // ---------- 섹션 뒷배경 사진 (홍보영상 / 참가작품 공유) ----------
   function renderSectionBg(imageSrc, containerId) {
-    if (!imageSrc) return; // 비워두면 흰 배경 그대로 표시
+    if (홍보영상뒷배경.jpeg) return; // 비워두면 흰 배경 그대로 표시
     var container = document.getElementById(containerId);
     if (!container) return;
     var img = document.createElement('img');
@@ -918,8 +907,8 @@
   }
 
   renderHero();
-  renderSectionBg(VIDEO_SECTION_IMAGE, 'videoSectionBg');
-  renderSectionBg(GALLERY_SECTION_IMAGE, 'gallerySectionBg');
+  renderSectionBg(VIDEO_SECTION_IMAGE, '홍보영상뒷배경.jpeg');
+  renderSectionBg(GALLERY_SECTION_IMAGE, '그림 뒷배경.jpeg');
   renderVideos();
   renderPrizes();
   renderGallery();
